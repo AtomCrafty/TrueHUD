@@ -62,7 +62,7 @@ class Widgets.TrueHUD_RecentLootList extends MovieClip
 		init();
 	}
 
-	public function addMessage(a_itemName: String, a_itemCount: Number, a_iconLabel: String, a_iconColor: Number)
+	public function addMessage(a_itemName: String, a_itemCount: Number, a_iconLabel: String, a_iconColor: Number, a_itemData: Object)
 	{
 		if (currentMessageArray.length > 0)
 		{
@@ -88,7 +88,7 @@ class Widgets.TrueHUD_RecentLootList extends MovieClip
 		}
 		var messageClip = unusedMessageArray.pop();
 		var bInstant = currentMessageArray.length == 0;
-		messageClip.addMessage(a_itemName, a_itemCount, a_iconLabel, a_iconColor, bInstant);
+		messageClip.addMessage(a_itemName, a_itemCount, a_iconLabel, a_iconColor, bInstant, a_itemData);
 		currentMessageArray.unshift(messageClip);
 		updatePositions();
 

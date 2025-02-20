@@ -462,7 +462,7 @@ void HUDHandler::RemoveRecentLootWidget()
 	});
 }
 
-void HUDHandler::AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count)
+void HUDHandler::AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count, RE::ExtraDataList* a_extraList)
 {
 	if (!Settings::bEnableRecentLoot) {
 		return;
@@ -485,8 +485,8 @@ void HUDHandler::AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_
 		return;
 	}
 
-	AddHUDTask([a_object, a_name, a_count](TrueHUDMenu& a_menu) {
-		a_menu.AddRecentLootMessage(a_object, a_name, a_count);
+	AddHUDTask([a_object, a_name, a_count, a_extraList](TrueHUDMenu& a_menu) {
+		a_menu.AddRecentLootMessage(a_object, a_name, a_count, a_extraList);
 	});
 }
 
