@@ -7,11 +7,13 @@ import com.greensock.easing.*;
 
 class Widgets.TrueHUD_RecentLootEntry extends MovieClip
 {
+	private static var DEFAULT_ICON_SOURCE = "skyui/icons_item_psychosteve.swf";
+	
 	public var ItemText: TextField;
 	public var ItemIcon: MovieClip;
 
 	private var iconLoader: MovieClipLoader;
-	private var iconSource: String = "skyui/icons_item_psychosteve.swf";
+	private var iconSource: String;
 
 	var showHideTimeline: TimelineLite;
 	var positionTween: TweenLite;
@@ -20,7 +22,6 @@ class Widgets.TrueHUD_RecentLootEntry extends MovieClip
 
 	var animDuration = 0.25;
 
-	var bIconsLoaded = false;
 	var bFresh = true;
 	var bReadyToRemove = false;
 
@@ -40,21 +41,41 @@ class Widgets.TrueHUD_RecentLootEntry extends MovieClip
 			this.iconSource = "../" + this.iconSource 
 		}
 
-		var iconLoader = new MovieClipLoader();
+		iconLoader = new MovieClipLoader();
 		iconLoader.addListener(this);
-		iconLoader.loadClip(this.iconSource, ItemIcon);
+		setIcon(undefined, undefined, undefined);
+		
 		showHideTimeline = new TimelineLite({paused:true});
 	}
 
 	private function onLoadInit(a_icon: MovieClip): Void
 	{
-		bIconsLoaded = true;
-
 		updateIcon();
 
 		ItemIcon._width = 24;
 		ItemIcon._height = 24;
 		ItemIcon._visible = true;
+	}
+	
+	private function setIcon(a_iconSource: String, a_iconLabel: String, a_iconColor: Number) {
+		if(!a_iconSource) a_iconSource = DEFAULT_ICON_SOURCE;
+		
+		if (_url.indexOf("exported") != -1 || _url.indexOf("Exported") != -1) {
+			a_iconSource = "../" + a_iconSource;
+		}
+		
+		var iconSourceChanged = a_iconSource != iconSource;
+		
+		iconSource = a_iconSource;
+		iconLabel = a_iconLabel;
+		iconColor = a_iconColor;
+		
+		if(iconSourceChanged) {
+			iconLoader.loadClip(iconSource, ItemIcon);
+		}
+		else {
+			updateIcon();
+		}
 	}
 
 	public function init()
@@ -94,24 +115,29 @@ class Widgets.TrueHUD_RecentLootEntry extends MovieClip
 		var colorTransform = new ColorTransform();
 		var transform = new Transform(MovieClip(ItemIcon));
 
-		colorTransform.rgb = iconColor;
+		if(typeof(iconColor) == "number") {
+			colorTransform.rgb = iconColor;
+		}
+		
 		transform.colorTransform = colorTransform;
 	}
 
-	public function addMessage(a_itemName: String, a_itemCount: Number, a_iconLabel: String, a_iconColor: Number, a_bInstant: Boolean)
+	public function addMessage(a_itemName: String, a_itemCount: Number, a_iconLabel: String, a_iconColor: Number, a_bInstant: Boolean, a_itemData: Object)
 	{
+		if(a_itemData) {
+			// Call i4 if it is installed
+			skse.plugins.InventoryInjector.ProcessEntry(a_itemData);
+		}
+		
 		itemName = a_itemName;
 		itemCount = a_itemCount;
 		
 		updateName();
-
-		iconLabel = a_iconLabel;
-		iconColor = a_iconColor;
 		
-		if (bIconsLoaded) {
-			updateIcon();
-		}
-
+		setIcon(a_itemData.iconSource,
+				a_itemData.iconLabel ? a_itemData.iconLabel : a_iconLabel,
+				a_itemData.iconColor ? a_itemData.iconColor : a_iconColor);
+		
 		setReadyToRemove(false);
 		if (a_bInstant)
 		{

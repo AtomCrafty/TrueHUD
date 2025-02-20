@@ -56,7 +56,7 @@ namespace Hooks
 		_AddObjectToContainer(a_this, a_object, a_extraList, a_count, a_fromRefr);
 
 		if (Settings::bEnableRecentLoot && a_object->GetPlayable()) {
-			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_object->GetName(), a_count);
+			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_object->GetName(), a_count, a_extraList);
 		}
 	}
 
@@ -65,7 +65,7 @@ namespace Hooks
 		_PickUpObject(a_this, a_object, a_count, a_arg3, a_playSound);
 
 		if (Settings::bEnableRecentLoot && a_object->GetPlayable()) {
-			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object->GetBaseObject(), a_object->GetDisplayFullName(), a_count);	
+			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object->GetBaseObject(), a_object->GetDisplayFullName(), a_count, &a_object->extraList);	
 		}
 	}
 
@@ -131,7 +131,7 @@ namespace Hooks
 		//bool bSilent = GetIsSilent();
 
 		if (Settings::bEnableRecentLoot && a_this->IsPlayerRef() /*&& !bSilent*/ && a_object->GetPlayable()) {
-			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object->GetBaseObject(), a_object->GetDisplayFullName(), a_count);
+			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object->GetBaseObject(), a_object->GetDisplayFullName(), a_count, &a_object->extraList);
 		}
 	}
 
@@ -173,7 +173,7 @@ namespace Hooks
 	{
 		if (Settings::bEnableRecentLoot) {
 			if (a_object->GetPlayable()) {
-				HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_object->GetName(), a_count);
+				HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_object->GetName(), a_count, nullptr);
 				if (Settings::bRecentLootHideVanillaMessage) {  // Skip original call
 					if (a4) {  // Play pickup sound
 						RE::PlayerCharacter::GetSingleton()->PlayPickUpSound(a_object, a3, 0);
@@ -207,7 +207,7 @@ namespace Hooks
 	{
 		if (Settings::bEnableRecentLoot && !Settings::bRecentLootHideInCraftingMenus) {
 			if (a_object->GetPlayable()) {
-				HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_object->GetName(), a_count);
+				HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_object->GetName(), a_count, nullptr);
 				if (Settings::bRecentLootHideVanillaMessage) {  // Skip original call
 					if (a4) {                                   // Play pickup sound
 						RE::PlayerCharacter::GetSingleton()->PlayPickUpSound(a_object, a3, 0);
@@ -224,7 +224,7 @@ namespace Hooks
 	{
 		if (Settings::bEnableRecentLoot && !Settings::bRecentLootHideInCraftingMenus) {
 			if (a_object->GetPlayable()) {
-				HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_object->GetName(), a_count);
+				HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_object->GetName(), a_count, nullptr);
 				if (Settings::bRecentLootHideVanillaMessage) {  // Skip original call
 					if (a4) {                                   // Play pickup sound
 						RE::PlayerCharacter::GetSingleton()->PlayPickUpSound(a_object, a3, 0);

@@ -69,7 +69,7 @@ public:
 
 	void AddRecentLootWidget();
 	void RemoveRecentLootWidget();
-	void AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count);
+	void AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count, RE::ExtraDataList* a_extraList);
 
 	void AddFloatingWorldTextWidget(std::string a_text, uint32_t a_color, float a_duration, bool a_bSpecial, RE::NiPoint3 a_worldPosition);
 	void AddFloatingScreenTextWidget(std::string a_text, uint32_t a_color, float a_duration, bool a_bSpecial, RE::NiPoint2 a_screenPosition);

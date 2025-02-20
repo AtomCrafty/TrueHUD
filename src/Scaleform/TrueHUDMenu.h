@@ -146,7 +146,7 @@ namespace Scaleform
 
 		bool AddRecentLootWidget();
 		bool RemoveRecentLootWidget();
-		void AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count);
+		void AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count, RE::ExtraDataList* a_extraList);
 
 		bool AddFloatingWorldTextWidget(std::string a_text, uint32_t a_color, float a_duration, bool a_bSpecial, RE::NiPoint3 a_worldPosition);
 		bool AddFloatingScreenTextWidget(std::string a_text, uint32_t a_color, float a_duration, bool a_bSpecial, RE::NiPoint2 a_screenPosition);
@@ -197,11 +197,7 @@ namespace Scaleform
 
 			// do NOT use LoadMovieEx if you want skse scaleform hooks, it doesn't call the original function which is hooked by skse
 			[[maybe_unused]] const auto success =
-				scaleformManager->LoadMovieEx(menu, FILE_NAME, [](RE::GFxMovieDef* a_def) -> void {
-					a_def->SetState(
-						RE::GFxState::StateType::kLog,
-						RE::make_gptr<Logger>().get());
-				});
+				scaleformManager->LoadMovie(menu, menu->uiMovie, FILE_NAME.data());
 
 			// this works instead
 			//[[maybe_unused]] const auto success = scaleformManager->LoadMovie(menu, menu->uiMovie, FILE_NAME.data());

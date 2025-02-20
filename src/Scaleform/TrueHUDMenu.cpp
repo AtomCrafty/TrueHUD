@@ -358,10 +358,10 @@ namespace Scaleform
 		return false;
 	}
 
-	void TrueHUDMenu::AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count)
+	void TrueHUDMenu::AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count, RE::ExtraDataList* a_extraList)
 	{
 		if (_recentLoot) {
-			_recentLoot->AddMessage(a_object, a_name, a_count);
+			_recentLoot->AddMessage(a_object, a_name, a_count, a_extraList);
 		}
 	}
 
