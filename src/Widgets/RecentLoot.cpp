@@ -1,9 +1,7 @@
 #include "Widgets/RecentLoot.h"
-#include "ItemData/ItemDefines.h"
-#include "ItemData/ItemStack.h"
 #include "Offsets.h"
 #include "Settings.h"
-#include "Utils.h"
+#include "ItemData/ItemStack.h"
 
 namespace Scaleform
 {
@@ -33,14 +31,14 @@ namespace Scaleform
 		const auto view = _view.get();
 		const auto container = RE::PlayerCharacter::GetSingleton()->GetHandle();
 
-		QuickLoot::Items::ItemStack stack{ view, container, entry };
+		QuickLoot::Items::ItemStack stack{ entry, container };
 
 		const RE::GFxValue args[] = {
 			RE::GFxValue(a_name),
 			RE::GFxValue(a_count),
 			RE::GFxValue(),
 			RE::GFxValue(),
-			stack.GetData()
+			stack.BuildDataObject(view)
 		};
 
 		_object.Invoke("addMessage", nullptr, args, 5);
