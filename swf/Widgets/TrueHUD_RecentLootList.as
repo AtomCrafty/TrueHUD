@@ -1,4 +1,4 @@
-import TrueHUD_RecentLootEntry;
+﻿import TrueHUD_RecentLootEntry;
 
 class Widgets.TrueHUD_RecentLootList extends MovieClip
 {
@@ -86,6 +86,7 @@ class Widgets.TrueHUD_RecentLootList extends MovieClip
 			unusedMessageArray.push(newClip);
 			//trace("added new message mc");
 		}
+
 		var messageClip = unusedMessageArray.pop();
 		var bInstant = currentMessageArray.length == 0;
 		messageClip.addMessage(a_itemName, a_itemCount, a_iconLabel, a_iconColor, bInstant, a_itemData);
