@@ -31,17 +31,25 @@ namespace Scaleform
 		const auto view = _view.get();
 		const auto container = RE::PlayerCharacter::GetSingleton()->GetHandle();
 
-		QuickLoot::Items::ItemStack stack{ entry, container };
+		const QuickLoot::Items::ItemStack stack{ entry, container };
+		const auto& data = stack.GetData();
+
+		const auto iconLabel = data.iconLabel.value;
+		const auto iconColor = data.iconColor.valid ? data.iconColor.value : 0xffffff;
 
 		const RE::GFxValue args[] = {
 			RE::GFxValue(a_name),
 			RE::GFxValue(a_count),
-			RE::GFxValue(),
-			RE::GFxValue(),
+			RE::GFxValue(iconLabel),
+			RE::GFxValue(static_cast<int>(iconColor)),
 			stack.BuildDataObject(view)
 		};
 
-		_object.Invoke("addMessage", nullptr, args, 5);
+		logger::info("{}: {:8x} {}", a_name, iconColor, iconLabel);
+
+		if (!_object.Invoke("addMessage", nullptr, args, 5)) {
+			logger::warn("Failed to invoke addMessage");
+		}
 	}
 
 	void RecentLoot::UpdatePosition()

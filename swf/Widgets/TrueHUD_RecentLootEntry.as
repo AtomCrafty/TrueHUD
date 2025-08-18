@@ -1,4 +1,4 @@
-import flash.geom.ColorTransform;
+﻿import flash.geom.ColorTransform;
 import flash.geom.Transform;
 
 import com.greensock.TimelineLite;
@@ -134,9 +134,14 @@ class Widgets.TrueHUD_RecentLootEntry extends MovieClip
 		
 		updateName();
 		
-		setIcon(a_itemData.iconSource,
-				a_itemData.iconLabel ? a_itemData.iconLabel : a_iconLabel,
-				a_itemData.iconColor ? a_itemData.iconColor : a_iconColor);
+		if(a_itemData) {
+			setIcon(a_itemData.iconSource,
+					a_itemData.iconLabel ? a_itemData.iconLabel : a_iconLabel,
+					a_itemData.iconColor ? a_itemData.iconColor : a_iconColor);
+		}
+		else {
+			setIcon(undefined, a_iconLabel, a_iconColor);
+		}
 		
 		setReadyToRemove(false);
 		if (a_bInstant)
