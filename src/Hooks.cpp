@@ -56,7 +56,7 @@ namespace Hooks
 		_AddObjectToContainer(a_this, a_object, a_extraList, a_count, a_fromRefr);
 
 		if (Settings::bEnableRecentLoot && a_object->GetPlayable()) {
-			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_object->GetName(), a_count, a_extraList);
+			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_extraList ? a_extraList->GetDisplayName(a_object) : a_object->GetName(), a_count, a_extraList);
 		}
 	}
 
