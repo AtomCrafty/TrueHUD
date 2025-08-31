@@ -87,6 +87,8 @@ namespace QuickLoot::Items
 		void SkyUiSelectSoulGemIcon() const;
 		void SkyUiSelectSoulGemStatusIcon(bool grand) const;
 
+		void I4ExtendItemData() const;
+
 		// Helpers
 
 		bool IsStealing() const;
