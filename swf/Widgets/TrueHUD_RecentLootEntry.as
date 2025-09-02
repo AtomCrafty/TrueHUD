@@ -124,17 +124,15 @@ class Widgets.TrueHUD_RecentLootEntry extends MovieClip
 
 	public function addMessage(a_itemName: String, a_itemCount: Number, a_iconLabel: String, a_iconColor: Number, a_bInstant: Boolean, a_itemData: Object)
 	{
-		if(a_itemData) {
-			// Call i4 if it is installed
-			skse.plugins.InventoryInjector.ProcessEntry(a_itemData);
-		}
-		
 		itemName = a_itemName;
 		itemCount = a_itemCount;
 		
 		updateName();
 		
 		if(a_itemData) {
+			// Call i4 if it is installed
+			skse.plugins.InventoryInjector.ProcessEntry(a_itemData);
+			
 			setIcon(a_itemData.iconSource,
 					a_itemData.iconLabel ? a_itemData.iconLabel : a_iconLabel,
 					a_itemData.iconColor ? a_itemData.iconColor : a_iconColor);
