@@ -1,5 +1,6 @@
 #pragma once
 #include "TrueHUDAPI.h"
+#include "ItemData/ItemStack.h"
 
 namespace Scaleform
 {
@@ -14,7 +15,7 @@ namespace Scaleform
 		virtual void Initialize() override;
 		virtual void Dispose() override;
 
-		void AddMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count, RE::ExtraDataList* a_extraList);
+		void AddMessage(std::string_view a_name, uint32_t a_count, const char* a_iconLabel, uint32_t a_iconColor, const QuickLoot::Items::ItemStack* a_stack);
 
 	protected:
 		virtual void UpdatePosition();

@@ -1,5 +1,6 @@
 #include "HUDHandler.h"
 
+#include "ItemData/ItemStack.h"
 #include "Offsets.h"
 #include "Settings.h"
 #include "Utils.h"
@@ -485,8 +486,24 @@ void HUDHandler::AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_
 		return;
 	}
 
-	AddHUDTask([a_object, a_name, a_count, a_extraList](TrueHUDMenu& a_menu) {
-		a_menu.AddRecentLootMessage(a_object, a_name, a_count, a_extraList);
+	// ownership transfers to the item stack, so we don't delete this.
+	const auto entry = new RE::InventoryEntryData(a_object, static_cast<std::int32_t>(a_count));
+	if (a_extraList) {
+		entry->AddExtraList(a_extraList);
+	}
+
+	const auto container = RE::PlayerCharacter::GetSingleton()->GetHandle();
+
+	const auto stack = new QuickLoot::Items::ItemStack(entry, container);
+
+	// Gather data on this thead because the extra data list might not exist later
+	const auto& data = stack->GetData();
+
+	const auto iconLabel = data.iconLabel.value;
+	const auto iconColor = data.iconColor.valid ? data.iconColor.value : 0xffffff;
+
+	AddHUDTask([=](TrueHUDMenu& a_menu) {
+		a_menu.AddRecentLootMessage(a_name, a_count, iconLabel, iconColor, stack);
 	});
 }
 
