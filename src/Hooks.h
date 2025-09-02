@@ -56,7 +56,7 @@ namespace Hooks
 		static void AddObjectToContainer(RE::Actor* a_this, RE::TESBoundObject* a_object, RE::ExtraDataList* a_extraList, int32_t a_count, RE::TESObjectREFR* a_fromRefr);
 		static inline REL::Relocation<decltype(AddObjectToContainer)> _AddObjectToContainer;
 
-		static void PickUpObject(RE::Actor* a_this, RE::TESObjectREFR* a_object, uint32_t a_count, bool a_arg3, bool a_playSound);
+		static void PickUpObject(RE::Actor* a_this, RE::TESObjectREFR* a_refr, uint32_t a_count, bool a_arg3, bool a_playSound);
 		static inline REL::Relocation<decltype(PickUpObject)> _PickUpObject;
 
 		static void AddMessage_Flash(RE::UIMessageQueue* a_this, const RE::BSFixedString& a_menuName, RE::UI_MESSAGE_TYPE a_type, RE::HUDData* a_data);

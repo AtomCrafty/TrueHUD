@@ -20,36 +20,21 @@ namespace Scaleform
 		_object.Invoke("cleanUp");
 	}
 
-	void RecentLoot::AddMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count, RE::ExtraDataList* a_extraList)
+	void RecentLoot::AddMessage(std::string_view a_name, uint32_t a_count, const char* a_iconLabel, uint32_t a_iconColor, const QuickLoot::Items::ItemStack* a_stack)
 	{
-		// ownership transfers to the item stack, so we don't delete this.
-		const auto entry = new RE::InventoryEntryData(a_object, static_cast<std::int32_t>(a_count));
-		if (a_extraList) {
-			entry->AddExtraList(a_extraList);
-		}
-
-		const auto view = _view.get();
-		const auto container = RE::PlayerCharacter::GetSingleton()->GetHandle();
-
-		const QuickLoot::Items::ItemStack stack{ entry, container };
-		const auto& data = stack.GetData();
-
-		const auto iconLabel = data.iconLabel.value;
-		const auto iconColor = data.iconColor.valid ? data.iconColor.value : 0xffffff;
-
 		const RE::GFxValue args[] = {
 			RE::GFxValue(a_name),
 			RE::GFxValue(a_count),
-			RE::GFxValue(iconLabel),
-			RE::GFxValue(static_cast<int>(iconColor)),
-			stack.BuildDataObject(view)
+			a_iconLabel,
+			static_cast<int>(a_iconColor),
+			a_stack->BuildDataObject(_view.get())
 		};
-
-		logger::info("{}: {:8x} {}", a_name, iconColor, iconLabel);
 
 		if (!_object.Invoke("addMessage", nullptr, args, 5)) {
 			logger::warn("Failed to invoke addMessage");
 		}
+
+		delete a_stack;
 	}
 
 	void RecentLoot::UpdatePosition()

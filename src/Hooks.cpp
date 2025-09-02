@@ -53,20 +53,20 @@ namespace Hooks
 
 	void HUDHook::AddObjectToContainer(RE::Actor* a_this, RE::TESBoundObject* a_object, RE::ExtraDataList* a_extraList, int32_t a_count, RE::TESObjectREFR* a_fromRefr)
 	{
-		_AddObjectToContainer(a_this, a_object, a_extraList, a_count, a_fromRefr);
-
 		if (Settings::bEnableRecentLoot && a_object->GetPlayable()) {
 			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object, a_extraList ? a_extraList->GetDisplayName(a_object) : a_object->GetName(), a_count, a_extraList);
 		}
+
+		_AddObjectToContainer(a_this, a_object, a_extraList, a_count, a_fromRefr);
 	}
 
-	void HUDHook::PickUpObject(RE::Actor* a_this, RE::TESObjectREFR* a_object, uint32_t a_count, bool a_arg3, bool a_playSound)
+	void HUDHook::PickUpObject(RE::Actor* a_this, RE::TESObjectREFR* a_refr, uint32_t a_count, bool a_arg3, bool a_playSound)
 	{
-		_PickUpObject(a_this, a_object, a_count, a_arg3, a_playSound);
-
-		if (Settings::bEnableRecentLoot && a_object->GetPlayable()) {
-			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object->GetBaseObject(), a_object->GetDisplayFullName(), a_count, &a_object->extraList);	
+		if (Settings::bEnableRecentLoot && a_refr->GetPlayable()) {
+			HUDHandler::GetSingleton()->AddRecentLootMessage(a_refr->GetBaseObject(), a_refr->GetDisplayFullName(), a_count, &a_refr->extraList);
 		}
+
+		_PickUpObject(a_this, a_refr, a_count, a_arg3, a_playSound);
 	}
 
 	void HUDHook::AddMessage_Flash(RE::UIMessageQueue* a_this, const RE::BSFixedString& a_menuName, RE::UI_MESSAGE_TYPE a_type, RE::HUDData* a_data)
@@ -113,8 +113,6 @@ namespace Hooks
 
 	void HUDHook::AddItem_AddItemFunctor(RE::TESObjectREFR* a_this, RE::TESObjectREFR* a_object, int32_t a_count, bool a4, bool a5)
 	{
-		_AddItem_AddItemFunctor(a_this, a_object, a_count, a4, a5);
-
 		//static auto GetIsSilent = []() -> bool {
 		//	struct GetIsSilent : Xbyak::CodeGenerator
 		//	{
@@ -133,6 +131,8 @@ namespace Hooks
 		if (Settings::bEnableRecentLoot && a_this->IsPlayerRef() /*&& !bSilent*/ && a_object->GetPlayable()) {
 			HUDHandler::GetSingleton()->AddRecentLootMessage(a_object->GetBaseObject(), a_object->GetDisplayFullName(), a_count, &a_object->extraList);
 		}
+
+		_AddItem_AddItemFunctor(a_this, a_object, a_count, a4, a5);
 	}
 
 	void HUDHook::PlayPickupSoundAndMessage_AddItemFunctor(RE::TESBoundObject* a_object, int32_t a_count, bool a3, bool a4, void* a5)

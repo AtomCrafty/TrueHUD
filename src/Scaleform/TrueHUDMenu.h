@@ -7,8 +7,10 @@
 #include "Widgets/PlayerWidget.h"
 #include "Widgets/FloatingText.h"
 #include "Widgets/RecentLoot.h"
-#include "Offsets.h"
+#include "ItemData/ItemStack.h"
+
 #include <chrono>
+#include <memory>
 #include <unordered_set>
 
 namespace std
@@ -146,7 +148,7 @@ namespace Scaleform
 
 		bool AddRecentLootWidget();
 		bool RemoveRecentLootWidget();
-		void AddRecentLootMessage(RE::TESBoundObject* a_object, std::string_view a_name, uint32_t a_count, RE::ExtraDataList* a_extraList);
+		void AddRecentLootMessage(std::string_view a_name, uint32_t a_count, const char* a_iconLabel, uint32_t a_iconColor, const QuickLoot::Items::ItemStack* a_stack) const;
 
 		bool AddFloatingWorldTextWidget(std::string a_text, uint32_t a_color, float a_duration, bool a_bSpecial, RE::NiPoint3 a_worldPosition);
 		bool AddFloatingScreenTextWidget(std::string a_text, uint32_t a_color, float a_duration, bool a_bSpecial, RE::NiPoint2 a_screenPosition);
