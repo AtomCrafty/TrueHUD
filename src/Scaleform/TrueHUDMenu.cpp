@@ -896,7 +896,8 @@ namespace Scaleform
 
 	void TrueHUDMenu::DrawSphere(const RE::NiPoint3& a_origin, float a_radius, uint32_t a_segments /*= 16*/, float a_duration /*= 0.f*/, uint32_t a_color /*= 0xFF0000FF*/, float a_thickness /*= 1.f*/)
 	{
-		a_segments = max(a_segments, 4);
+		constexpr uint32_t minSegments = 4;
+		a_segments = std::max(a_segments, minSegments);
 
 		RE::NiPoint3 vertex1, vertex2, vertex3, vertex4;
 		const float angleInc = 2.f * PI / a_segments;
@@ -935,7 +936,8 @@ namespace Scaleform
 
 	void TrueHUDMenu::DrawCylinder(const RE::NiPoint3& a_start, const RE::NiPoint3& a_end, float a_radius, uint32_t a_segments, float a_duration /*= 0.f*/, uint32_t a_color /*= 0xFF0000FF*/, float a_thickness /*= 1.f*/)
 	{
-		a_segments = max(a_segments, 4);
+		constexpr uint32_t minSegments = 4;
+		a_segments = std::max(a_segments, minSegments);
 
 		RE::NiPoint3 segment;
 		RE::NiPoint3 p1, p2, p3, p4;
@@ -975,7 +977,8 @@ namespace Scaleform
 
 	void TrueHUDMenu::DrawCone(const RE::NiPoint3& a_origin, const RE::NiPoint3& a_direction, float a_length, float a_angleWidth, float a_angleHeight, uint32_t a_segments, float a_duration /*= 0.f*/, uint32_t a_color /*= 0xFF0000FF*/, float a_thickness /*= 1.f*/)
 	{
-		a_segments = max(a_segments, 4);
+		constexpr uint32_t minSegments = 4;
+		a_segments = std::max(a_segments, minSegments);
 		
 		const float angle1 = a_angleHeight < 1e-4f ? 1e-4f : a_angleHeight < PI - 1e-4f ? a_angleHeight : PI - 1e-4f;
 		const float angle2 = a_angleWidth < 1e-4f ? 1e-4f : a_angleWidth < PI - 1e-4f ? a_angleWidth : PI - 1e-4f;
@@ -1044,7 +1047,7 @@ namespace Scaleform
 		RE::NiPoint3 yAxis = axis.GetScaledAxis(Utils::Matrix4::Axis::kY);
 		RE::NiPoint3 zAxis = axis.GetScaledAxis(Utils::Matrix4::Axis::kZ);
 
-		float halfAxis = max(a_halfHeight - a_radius, 1.f);
+		float halfAxis = std::max(a_halfHeight - a_radius, 1.f);
 		RE::NiPoint3 topEnd = a_origin + zAxis * halfAxis;
 		RE::NiPoint3 bottomEnd = a_origin - zAxis * halfAxis;
 

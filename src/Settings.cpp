@@ -468,7 +468,7 @@ void Settings::ReadColorStringSetting(CSimpleIniA& a_ini, const char* a_sectionN
 			a_setting = std::stoi(str.data(), 0, 16);
 		} else {
 			const auto skyrimVM = RE::SkyrimVM::GetSingleton();
-			auto vm = skyrimVM ? skyrimVM->impl : nullptr;
+			auto vm = skyrimVM ? skyrimVM->GetVMRuntimeData().impl : nullptr;
 			if (vm) {
 				RE::BSFixedString modName{ "TrueHUD" };
 				std::string settingStr = a_settingName;
