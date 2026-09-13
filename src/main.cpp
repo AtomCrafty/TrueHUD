@@ -64,7 +64,7 @@ namespace
 	}
 }
 
-extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
+extern "C" DLLEXPORT bool SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
 {
 	a_info->infoVersion = SKSE::PluginInfo::kVersion;
 	a_info->name = Plugin::NAME.data();
@@ -97,7 +97,7 @@ extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
 	return v;
 }();
 
-extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
+extern "C" DLLEXPORT bool SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
 #ifndef NDEBUG
 	while (!IsDebuggerPresent()) { Sleep(100); }
@@ -121,7 +121,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	return true;
 }
 
-extern "C" DLLEXPORT void* SKSEAPI RequestPluginAPI(const TRUEHUD_API::InterfaceVersion a_interfaceVersion)
+extern "C" DLLEXPORT void* RequestPluginAPI(const TRUEHUD_API::InterfaceVersion a_interfaceVersion)
 {
 	auto api = Messaging::TrueHUDInterface::GetSingleton();
 

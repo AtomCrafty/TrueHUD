@@ -11,7 +11,7 @@ namespace QuickLoot::Items
 
 		const auto player = RE::PlayerCharacter::GetSingleton();
 		const auto value = _data.value.value;
-		const auto weight = max(0.0f, _data.weight.value);
+		const auto weight = std::max(0.0f, _data.weight.value);
 
 		_data.baseId = _object->formID & 0xFFFFFF;
 		_data.type = GetItemType();

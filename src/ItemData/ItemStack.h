@@ -28,12 +28,6 @@ namespace QuickLoot::Items
 		[[nodiscard]] virtual ItemData& GetData() const;
 		[[nodiscard]] virtual RE::GFxValue& BuildDataObject(RE::GFxMovieView* view) const;
 
-		virtual void TakeStack(RE::Actor* actor) const;
-		virtual void TakeOne(RE::Actor* actor) const;
-		virtual void Take(RE::Actor* actor, int count) const;
-		virtual void Use(RE::Actor* actor) const;
-		virtual const char* GetUseLabel() const;
-
 	protected:
 		std::unique_ptr<RE::InventoryEntryData> _entry;
 		RE::TESBoundObject* _object;

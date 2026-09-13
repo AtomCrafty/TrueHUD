@@ -25,7 +25,7 @@ namespace QuickLoot::Items
 
 		// https://github.com/ianpatt/skse64/blob/9843a236aa12b12fa4c6530c29113adfb941da72/skse64/ScaleformExtendedData.cpp#L113
 
-		_data.formType = _object->formType;
+		_data.formType = _object->formType.get();
 		_data.formId = _object->formID;
 	}
 
@@ -56,13 +56,13 @@ namespace QuickLoot::Items
 
 		case RE::FormType::Ammo:
 			if (const auto ammo = skyrim_cast<RE::TESAmmo*>(_object)) {
-				_data.ammo.flags = ammo->GetRuntimeData().data.flags;
+				_data.ammo.flags = ammo->GetRuntimeData().data.flags.get();
 			}
 			break;
 
 		case RE::FormType::Weapon:
 			if (const auto weapon = skyrim_cast<RE::TESObjectWEAP*>(_object)) {
-				_data.weapon.weaponType = weapon->weaponData.animationType;
+				_data.weapon.weaponType = weapon->weaponData.animationType.get();
 				_data.weapon.speed = weapon->weaponData.speed;
 				_data.weapon.reach = weapon->weaponData.reach;
 				_data.weapon.stagger = weapon->weaponData.staggerValue;
@@ -86,14 +86,14 @@ namespace QuickLoot::Items
 
 		case RE::FormType::AlchemyItem:
 			if (const auto alchemyItem = skyrim_cast<RE::AlchemyItem*>(_object)) {
-				_data.potion.flags = alchemyItem->data.flags;
+				_data.potion.flags = alchemyItem->data.flags.get();
 			}
 			break;
 
 		case RE::FormType::Book:
 			if (const auto book = skyrim_cast<RE::TESObjectBOOK*>(_object)) {
-				_data.book.flags = book->data.flags;
-				_data.book.bookType = book->data.type;
+				_data.book.flags = book->data.flags.get();
+				_data.book.bookType = book->data.type.get();
 
 				if (book->data.flags.all(BookFlags::kTeachesSpell)) {
 					_data.book.teachesSpell = book->data.teaches.spell ? book->data.teaches.spell->formID : -1;
@@ -165,7 +165,7 @@ namespace QuickLoot::Items
 				const auto baseEffect = effect->baseEffect;
 				_data.magic.effectName = baseEffect->fullName.c_str();
 				_data.magic.subType = baseEffect->data.associatedSkill;
-				_data.magic.effectFlags = baseEffect->data.flags;
+				_data.magic.effectFlags = baseEffect->data.flags.get();
 				_data.magic.school = baseEffect->data.associatedSkill;
 				_data.magic.skillLevel = baseEffect->data.minimumSkill;
 				_data.magic.archetype = baseEffect->data.archetype;

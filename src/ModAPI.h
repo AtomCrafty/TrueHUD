@@ -1,5 +1,6 @@
 #pragma once
 #include "TrueHUDAPI.h"
+#include "SKSE/Impl/Stubs.h"
 
 class HUDHandler;
 
